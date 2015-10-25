@@ -1,4 +1,3 @@
-setwd("C:\\Users\\mduplessis\\Desktop\\DataScience_Studies\\GettingAndCleaningData")
 
 if(dir.exists("./UCI HAR Dataset")==FALSE) {
         stop("The 'UCI HAR Dataset' folder could not be found in the current Working Directory.
