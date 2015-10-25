@@ -1,8 +1,8 @@
 setwd("C:\\Users\\mduplessis\\Desktop\\DataScience_Studies\\GettingAndCleaningData")
 
 if(dir.exists("./UCI HAR Dataset")==FALSE) {
-        stop("No UCI HAR Dataset folder in the Working Directory.
-             \n  please save the folder there and try again.")
+        stop("The 'UCI HAR Dataset' folder could not be found in the current Working Directory.
+             \n  Please set your working directory or, save the folder to it.")
 }
 
 # Package check
