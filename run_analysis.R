@@ -75,4 +75,4 @@ all_data_unpivot = melt(all_data, id.var = c("subject", "activity"))
 output = dcast(all_data_unpivot , subject + activity ~ variable, mean)
 
 # write the results to a file called tidy_data.txt
-write.table(output, file="./tidy_data.txt")
+write.table(output, file="./tidy_data.txt", row.name=FALSE)
