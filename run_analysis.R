@@ -1,3 +1,4 @@
+setwd("C:\\Users\\mduplessis\\Desktop\\DataScience_Studies\\GettingAndCleaningData")
 
 if(dir.exists("./UCI HAR Dataset")==FALSE) {
         stop("The 'UCI HAR Dataset' folder could not be found in the current Working Directory.
@@ -44,17 +45,15 @@ if (!require("reshape2")) {install.packages("reshape2"); require("reshape2")}
         
         # keep only columns for mean and std
         # we could do this with which or grep(l).
-        x_all <- x_all[,grep("-mean|-std", names(x_all))]
+        x_all <- x_all[,grep("\\Qmean()\\E|-std", names(x_all))]
         
 
 # transform Y
         # join the Descriptive activity name from activity labels.
         # keep only the named
-        y_all <- merge(y_all, activity_labels, by="V1")[2]
-        
-        # name the fields
-        names(y_all) <- c("activity")
-        
+        y_all <- data.frame("activity"=merge(y_all, activity_labels, by="V1")[,2])
+
+        names(y_all) <- "activity"
 
 # transform SUBJECT datasets
         # Create a second data set with the average of each variable for each 
@@ -67,11 +66,11 @@ if (!require("reshape2")) {install.packages("reshape2"); require("reshape2")}
         # with training and testing setsin the correct order
         all_data <- cbind(subject_all, y_all, x_all)
 
-# unpivot the data using melt (reshape2)
-all_data_unpivot = melt(all_data, id.var = c("subject", "activity"))
-
-# add and mean of each variable as a new field and cast using dcat (reshape2)
-output = dcast(all_data_unpivot , subject + activity ~ variable, mean)
+        
+output = aggregate(all_data[,3:68], 
+                    by=list(subject=all_data$subject,
+                            activity = all_data$activity ), 
+                    mean)
 
 # write the results to a file called tidy_data.txt
 write.table(output, file="./tidy_data.txt", row.name=FALSE)
